@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+module load StdEnv/2023
+module load sra-toolkit
+
+
+SRR=(SRR10551665  #(IL20)
+     SRR10551664  #(IL21)
+     SRR10551663  #(IL22)
+     SRR10551662  #(IL23)
+     SRR10551661  #(IL24)
+     SRR10551660  #(IL25)
+     SRR10551659  #(IL29)
+     SRR10551658  #(IL30)
+     SRR10551657  #(IL31)
+)
+
+for sample in "${SRR[@]}"; do
+  # skip if already downloaded
+  if [[ -f "${sample}_1.fastq.gz" || -f "${sample}.fastq.gz" ]]; then
+    echo "Skip $sample (exists)"; continue
+  fi
+
+  echo "Downloading $sample..."
+  prefetch "$sample" || { echo "prefetch failed for $sample"; exit 1; }
+  fasterq-dump "$sample" --split-3 -e 1 || { echo "fasterq-dump failed for $sample"; exit 1; }
+  gzip -f "${sample}"*.fastq
+  rm -rf "$sample"
+done
