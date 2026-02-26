@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+URL="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/146/045/GCF_000146045.2_R64"
+
+wget ${URL}/GCF_000146045.2_R64_genomic.fna.gz
+wget ${URL}/GCF_000146045.2_R64_genomic.gtf.gz
+wget ${URL}/GCF_000146045.2_R64_rna.fna.gz
+
+gunzip *.gz
