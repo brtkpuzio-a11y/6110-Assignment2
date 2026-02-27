@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+module load fastqc
+
+fastqc raw/*.fastq \
+    --outdir fastqc_results \
+    --threads 8
+
+echo "done"
