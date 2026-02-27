@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#module load salmon
+
+set -euo pipefail
+
+SAMPLES=(
+SRR10551665
+SRR10551664
+SRR10551663
+SRR10551662
+SRR10551661
+SRR10551660
+SRR10551659
+SRR10551658
+SRR10551657
+)
+
+for SRR in "${SAMPLES[@]}"; do
+    salmon quant \
+        -i salmon_index \
+        -l A \
+        -r raw/${SRR}.fastq \
+        -p 8 \
+        --fldMean 180 \
+        --fldSD 20 \
+        --validateMappings \
+        --gcBias \
+        -o salmon_output/${SRR}
+done
