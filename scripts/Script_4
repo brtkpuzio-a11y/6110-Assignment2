@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#module load salmon
+
+set -euo pipefail
+
+# Extract decoy chromosome names
+grep "^>" GCF_000146045.2_R64_genomic.fna | awk '{print $1}' | tr -d '>' > decoys.txt
+
+cat GCF_000146045.2_R64_rna.fna GCF_000146045.2_R64_genomic.fna > gentrome.fna
+
+# Build index
+salmon index \
+    -t gentrome.fna \
+    -d decoys.txt \
+    -i salmon_index \
+    -p 8
+
+echo "Salmon index built"
