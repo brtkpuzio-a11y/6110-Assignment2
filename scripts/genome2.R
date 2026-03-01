@@ -21,6 +21,9 @@ library(enrichplot)
 library(styler)
 #style_file("genome2.R")
 
+dir.create("results", showWarnings = FALSE)
+dir.create("plots", showWarnings = FALSE)
+
 #### DATA LOADING ####
 
 quant_files <- list.files("salmon_output", pattern = "quant.sf", 
@@ -99,15 +102,11 @@ deg_list <- lapply(deg_list, function(df) {
 names(deg_list) <- paste0(timepoints, "_vs_", ref)
 
 # Save DEG tables
-dir.create("results", showWarnings = FALSE)
 for (nm in names(deg_list)) {
   write.csv(deg_list[[nm]], file = paste0("results/DEG_", nm, ".csv"), row.names = FALSE)
 }
 
-##### EXPLORATORY PLOTS ####
-
-dir.create("plots", showWarnings = FALSE)
-
+#### EXPLORATORY PLOTS ####
 # PCA
 vsd      <- vst(dds, blind = FALSE)
 pca_data <- plotPCA(vsd, intgroup = "timepoint", returnData = TRUE)
@@ -203,6 +202,8 @@ ggplot(df3, aes(log2FoldChange, -log10(padj), color = sig)) +
   theme_classic()
 
 ggsave("plots/volcano_Thin_vs_Mature.pdf", width = 7, height = 5)
+
+write.csv(df3, "results/DEG_Thin_vs_Mature.csv", row.names = FALSE)
 
 
 #### HEATMAP (PAIRWISE DEGs) ####
@@ -357,14 +358,17 @@ gsea_go <- gseGO(geneList     = gene_ranks,
 dotplot(ego_bp, showCategory = 15,
         title = "GO Biological Process Enrichment (Mature vs Early)") +
   theme_minimal(base_size = 12)
+ggsave("plots/dotplot_GO_BP.pdf", width = 8, height = 6)
 
 dotplot(compare_go, showCategory = 10,
         title = "GO BP: Upregulated vs Downregulated in Mature Biofilm") +
   theme_minimal(base_size = 12)
+ggsave("plots/dotplot_compare_GO.pdf", width = 8, height = 6)
 
 dotplot(kegg_enrich, showCategory = 15,
         title = "KEGG Pathway Enrichment (Mature vs Early)") +
   theme_minimal(base_size = 12)
+ggsave("plots/dotplot_KEGG.pdf", width = 8, height = 6)
 
 #### GENE OF INTEREST EXPRESSION ####
 
@@ -400,4 +404,5 @@ if (nrow(as.data.frame(ego_cc)) > 0)      write.csv(as.data.frame(ego_cc),      
 if (nrow(as.data.frame(kegg_enrich)) > 0) write.csv(as.data.frame(kegg_enrich), "results/KEGG_enrichment.csv")
 
 if (nrow(as.data.frame(gsea_go)) > 0)     write.csv(as.data.frame(gsea_go),     "results/GSEA_GO_BP.csv")
+
 
