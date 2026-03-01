@@ -19,7 +19,7 @@ library(clusterProfiler)
 library(org.Sc.sgd.db)
 library(enrichplot)
 library(styler)
-style_file("genome2.R")
+#style_file("genome2.R")
 
 #### DATA LOADING ####
 
@@ -34,13 +34,11 @@ meta <- data.frame(
 # Assign timepoint factor with ordered levels
 meta$timepoint <- factor(c("Mature", "Mature", "Mature", "Thin", "Thin", "Thin", "Early", "Early", "Early"),
                          levels = c("Early", "Thin", "Mature"))
-levels(meta$timepoint)
 write.csv(meta, "sample_info.csv", row.names = FALSE)
 meta <- meta[nrow(meta):1, ]
 
 # Build transcript-to-gene map from GTF
 txdb    <- makeTxDbFromGFF("GCF_000146045.2_R64_genomic.gtf", format = "gtf")
-k       <- keys(txdb, keytype = "TXNAME")
 tx2gene <- AnnotationDbi::select(txdb,
                                  keys    = keys(txdb, keytype = "TXNAME"),
                                  columns = c("TXNAME", "GENEID"),
@@ -279,6 +277,7 @@ up_genes   <- res_df %>% filter(padj < 0.05 & log2FoldChange >  1) %>% pull(gene
 down_genes <- res_df %>% filter(padj < 0.05 & log2FoldChange < -1) %>% pull(gene_id) %>% unique()
 sig_genes  <- res_df %>% filter(padj < 0.05 & abs(log2FoldChange) > 1) %>% pull(gene_id) %>% unique()
 all_genes  <- res_df$gene_id %>% unique()
+cat("Up:", length(up_genes), "| Down:", length(down_genes), "| Sig total:", length(sig_genes), "\n")
 
 # GO ORA — Biological Process, Molecular Function, Cellular Component
 ego_bp <- enrichGO(gene          = sig_genes,
@@ -392,4 +391,5 @@ if (nrow(as.data.frame(ego_bp)) > 0)      write.csv(as.data.frame(ego_bp),      
 if (nrow(as.data.frame(ego_mf)) > 0)      write.csv(as.data.frame(ego_mf),      "results/GO_MF_enrichment.csv")
 if (nrow(as.data.frame(ego_cc)) > 0)      write.csv(as.data.frame(ego_cc),      "results/GO_CC_enrichment.csv")
 if (nrow(as.data.frame(kegg_enrich)) > 0) write.csv(as.data.frame(kegg_enrich), "results/KEGG_enrichment.csv")
+
 if (nrow(as.data.frame(gsea_go)) > 0)     write.csv(as.data.frame(gsea_go),     "results/GSEA_GO_BP.csv")
