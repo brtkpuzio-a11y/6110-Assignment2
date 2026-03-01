@@ -152,6 +152,8 @@ ggplot(df1, aes(log2FoldChange, -log10(padj), color = sig)) +
   labs(title = "Thin vs Early", x = "Log2 Fold Change", y = "-Log10 Adjusted P-value") +
   theme_classic()
 
+ggsave("plots/volcano_Thin_vs_Early.pdf", width = 7, height = 5)
+
 # Mature vs Early
 df2 <- deg_list[["Mature_vs_Early"]] %>%
   mutate(sig = case_when(
@@ -171,6 +173,8 @@ ggplot(df2, aes(log2FoldChange, -log10(padj), color = sig)) +
   geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
   labs(title = "Mature vs Early", x = "Log2 Fold Change", y = "-Log10 Adjusted P-value") +
   theme_classic()
+
+ggsave("plots/volcano_Mature_vs_Early.pdf", width = 7, height = 5)
 
 # Thin vs Mature (computed separately as it's not in deg_list)
 df3 <- results(dds, contrast = c("timepoint", "Thin", "Mature"), alpha = 0.05)
@@ -197,6 +201,9 @@ ggplot(df3, aes(log2FoldChange, -log10(padj), color = sig)) +
   geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
   labs(title = "Thin vs Mature", x = "Log2 Fold Change", y = "-Log10 Adjusted P-value") +
   theme_classic()
+
+ggsave("plots/volcano_Thin_vs_Mature.pdf", width = 7, height = 5)
+
 
 #### HEATMAP (PAIRWISE DEGs) ####
 
@@ -393,3 +400,4 @@ if (nrow(as.data.frame(ego_cc)) > 0)      write.csv(as.data.frame(ego_cc),      
 if (nrow(as.data.frame(kegg_enrich)) > 0) write.csv(as.data.frame(kegg_enrich), "results/KEGG_enrichment.csv")
 
 if (nrow(as.data.frame(gsea_go)) > 0)     write.csv(as.data.frame(gsea_go),     "results/GSEA_GO_BP.csv")
+
