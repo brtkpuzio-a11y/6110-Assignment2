@@ -125,9 +125,17 @@ ggplot(pca_data, aes(PC1, PC2, color = timepoint, label = name)) +
 ggsave("plots/PCA_velum_timepoints.pdf", width = 7, height = 5)
 
 # MA plot: overall expression vs fold change for Mature vs Early
+pdf("plots/MA_Mature_vs_Early.pdf", width = 7, height = 5)
 plotMA(results(dds, contrast = c("timepoint", "Mature", "Early")),
        ylim = c(-5, 5),
        main = "MA Plot: Mature vs Early")
+dev.off()
+
+pdf("plots/MA_Thin_vs_Early.pdf", width = 7, height = 5)
+plotMA(results(dds, contrast = c("timepoint", "Thin", "Early")),
+       ylim = c(-5, 5),
+       main = "MA Plot: Thin vs Early")
+dev.off()
 
 #### VOLCANO PLOTS ####
 
@@ -404,5 +412,6 @@ if (nrow(as.data.frame(ego_cc)) > 0)      write.csv(as.data.frame(ego_cc),      
 if (nrow(as.data.frame(kegg_enrich)) > 0) write.csv(as.data.frame(kegg_enrich), "results/KEGG_enrichment.csv")
 
 if (nrow(as.data.frame(gsea_go)) > 0)     write.csv(as.data.frame(gsea_go),     "results/GSEA_GO_BP.csv")
+
 
 
