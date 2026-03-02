@@ -29,9 +29,14 @@ Functional annotation and enrichment analysis were performed using clusterProfil
 
 Gene set enrichment analysis was performed using gseGO(), with all expressed genes ranked by log2 fold change from the Mature versus Early comparison. This approach complements threshold-dependent ORA by identifying coordinated expression shifts across predefined gene sets without requiring an arbitrary significance cutoff (Subramanian et al., 2005). All enrichment results were filtered at an adjusted p-value threshold of 0.05 and q-value below 0.2.
 ## Results
+
+### Transcriptome-wide expression profiling and sample quality
+Principal component analysis of variance-stabilized expression data revealed clear separation between all three velum developmental stages, with PC1 and PC2 accounting for 71% and 24% of total variance respectively, together explaining 95% of the variance in the dataset (Figure 1). Early, Thin, and Mature replicates formed tight, well-separated clusters, confirming high biological reproducibility within stages and strong transcriptional divergence across the developmental time course. Following low-count filtering, 5,571 genes were retained for differential expression analysis.
+
 <img width="2000" height="1428" alt="image" src="https://github.com/user-attachments/assets/57e6ff3e-e227-4fce-929c-c077da30cb52" />
 Figure 1. Principal component analysis of RNA-seq samples across velum developmental stages.
 PCA of variance-stabilized gene expression data from the three biological replicates at each of three velum developmental stages in *S. cerevisiae* (Early, Thin, Mature). PC1 accounts for 71% of total variance and PC2 accounts for 24%, together explaining 95% of the variance in the dataset. Clear separation between all three timepoints along PC1 indicates strong and reproducible transcriptional differences associated with velum progression.
+
 <img width="2000" height="1500" alt="image" src="https://github.com/user-attachments/assets/eb8658ad-853f-43d2-b8a6-f91c036f4bc1" />
 Figure 2. MA plot of differential expression between Mature and Early velum stages.
 Log2 fold change plotted against mean normalized expression for all genes tested in the Mature versus Early contrast. Each point represents a gene, with the y-axis showing the shrinkage-corrected log2 fold change and the x-axis showing mean normalized counts on a log10 scale. Genes above and below zero represent upregulated and downregulated genes in the Mature stage respectively.
@@ -39,6 +44,7 @@ Log2 fold change plotted against mean normalized expression for all genes tested
 <img width="2000" height="997" alt="image" src="https://github.com/user-attachments/assets/b773a55c-4e17-4607-927f-540bae1c13fb" />
 Figure 3. MA plot of differential expression between Thin and Early velum stages.
 Log2 fold change plotted against mean normalized expression for all genes in the Thin versus Early contrast. Layout and interpretation are identical to Figure 2. The compressed fold change range relative to the Mature versus Early comparison reflects the smaller transcriptional distance between the Early and Thin stages.
+
 <img width="2000" height="1428" alt="image" src="https://github.com/user-attachments/assets/dae4191f-735a-49c3-bd1d-daf86a771b0e" />
 Figure 4. Volcano plot of differentially expressed genes in the Mature versus Early comparison.
 Each point represents a gene, plotted by shrinkage-corrected log2 fold change (x-axis) against negative log10 adjusted p-value (y-axis). Genes meeting the significance threshold (adjusted p < 0.05, |log2FC| > 1) are colored red (upregulated) or blue (downregulated). Dashed lines indicate the |log2FC| = 1 and adjusted p = 0.05 thresholds. The 15 most significant differentially expressed genes are labeled.
@@ -47,14 +53,53 @@ Each point represents a gene, plotted by shrinkage-corrected log2 fold change (x
 <img width="2000" height="1428" alt="image" src="https://github.com/user-attachments/assets/25b43085-5f77-4926-bd4c-90b226979384" />
 Figure 5. Volcano plot of differentially expressed genes in the Thin versus Early comparison.
 Visualization of differential expression for the Mature versus Early contrast, presented as described in Figure 4. Notable upregulated genes include ADH7, PCK1, and MAN2, while downregulated genes include HXT1 and PDC6, reflecting the metabolic shift from fermentative to oxidative growth during velum maturation.
+
+### Pairwise differential expression analysis
+Differential expression analysis using DESeq2 identified substantial transcriptional remodeling across all three pairwise contrasts. In the Thin versus Early comparison, 548 genes were significantly upregulated and 489 were downregulated (adjusted p < 0.05, |log2FC| > 1), indicating that transcriptional change occurs even at the earliest stage of velum development (Figure 5). The Mature versus Early contrast revealed the most extensive transcriptional differences, with 963 genes upregulated and 798 downregulated in the mature biofilm (Figure 4). Notable upregulated genes included TDH1, OLE1, and FLO11, while HXT1 and PDC6 were among the most significantly downregulated, consistent with a transition away from fermentative carbon metabolism. The Thin versus Mature comparison identified 534 upregulated and 688 downregulated genes, reflecting continued and partially reversed transcriptional dynamics between the intermediate and mature stages (Figure 6). The expression heatmap of the top 30 DEGs per pairwise contrast confirmed distinct expression patterns across stages, with clearly defined gene clusters corresponding to Early-enriched and Mature-enriched expression programs (Figure 7).
+
 <img width="2000" height="1428" alt="image" src="https://github.com/user-attachments/assets/4a45362e-065a-46f9-bf65-670c6d0be93f" />
 Figure 6. Volcano plot of differentially expressed genes in the Thin versus Mature comparison.
 Differential expression between the Thin and Mature stages presented as described in Figure 4. The reduced number of significantly differentially expressed genes relative to comparisons against the Early stage reflects the transcriptional similarity between the two later developmental stages.
+
+### Time course analysis by likelihood ratio test
+Likelihood ratio testing against an intercept-only reduced model identified 3,734 genes exhibiting statistically significant variation across the full developmental time course (adjusted p < 0.05), representing approximately 67% of all expressed genes. This substantially larger gene set relative to any single pairwise contrast indicates that a considerable proportion of the transcriptional program involves gradual or non-monotonic expression trajectories that are not fully captured by pairwise testing alone.
+
 <img width="1259" height="983" alt="image" src="https://github.com/user-attachments/assets/9abd8e02-234a-4c8b-b7eb-8186102ab8ee" />
 
 <img width="2000" height="2500" alt="image" src="https://github.com/user-attachments/assets/b9a236f5-1ec2-4342-bea8-9abed8b380e3" />
-Figure 7. Heatmap of top differentially expressed genes across pairwise contrasts.
+Figure 8. Heatmap of top differentially expressed genes across pairwise contrasts.
 Row-scaled heatmap displaying the top 30 most significantly differentially expressed genes (adjusted p < 0.05, |log2FC| > 1) per pairwise contrast, deduplicated across comparisons. Expression values are variance-stabilized and z-score normalized per gene. Columns represent individual samples grouped by developmental stage (Early, Thin, Mature) without hierarchical clustering. Red indicates relative overexpression and blue indicates relative underexpression. Gene names are shown on the right.
+
+<img width="2000" height="1555" alt="image" src="https://github.com/user-attachments/assets/eb054f4d-ca17-4f5e-a852-ac1572897aea" />
+Figure 9. GO Biological Process enrichment analysis of differentially expressed genes in the Mature versus Early comparison.
+Dotplot showing the top 15 enriched Gene Ontology Biological Process terms among significantly differentially expressed genes in the Mature versus Early contrast (|log2FC| > 1, adjusted p < 0.05), identified by over-representation analysis using clusterProfiler. Dot size represents the number of genes in each term and dot color represents the Benjamini-Hochberg adjusted p-value. The background universe comprised all 5,571 expressed genes.
+
+<img width="2000" height="1600" alt="image" src="https://github.com/user-attachments/assets/f2d13a5c-fa73-4304-b5ad-511291398e4e" />
+Figure 10. Comparative GO Biological Process enrichment between upregulated and downregulated gene sets in mature velum.
+Dotplot comparing GO Biological Process enrichment between genes upregulated (n = 962) and downregulated (n = 797) in the Mature versus Early contrast. Upregulated genes are enriched for mitochondrial organization, respiratory chain assembly, and protein folding terms, consistent with a shift toward oxidative metabolism. Downregulated genes are enriched for transmembrane transport, lipid metabolic processes, and organic acid metabolism.
+
+### Functional enrichment analysis
+Over-representation analysis of significantly differentially expressed genes from the Mature versus Early contrast identified 47 enriched Gene Ontology Biological Process terms, 3 Molecular Function terms, and 15 Cellular Component terms (adjusted p < 0.05). The most significantly enriched BP terms included transmembrane transport, oxoacid metabolic process, organic acid metabolic process, and generation of precursor metabolites and energy, reflecting broad metabolic reprogramming during velum maturation (Figure 9). Directional comparison of upregulated and downregulated gene sets using compareCluster revealed a striking asymmetry in pathway enrichment (Figure 10). Among the 963 upregulated genes, enriched terms were predominantly associated with mitochondrial organization, respiratory chain complex assembly, mitochondrial translation, and protein folding, consistent with a shift toward oxidative metabolism. In contrast, the 798 downregulated genes were enriched for transmembrane transport, lipid metabolic processes, and organic acid catabolism, suggesting downregulation of fermentative and nutrient acquisition programs as the velum matures.
+
+<img width="2000" height="1555" alt="image" src="https://github.com/user-attachments/assets/da695e59-8085-405e-90f8-08b8e849064b" />
+Figure 11. KEGG pathway enrichment analysis of differentially expressed genes in the Mature versus Early comparison.
+Dotplot of the top 15 enriched KEGG pathways among significantly differentially expressed genes in the Mature versus Early contrast, identified using enrichKEGG() with the S. cerevisiae organism code. Biosynthesis of secondary metabolites, carbon metabolism, and biosynthesis of amino acids represent the most strongly enriched pathways by gene ratio. Dot size represents gene count and color represents adjusted p-value.
+
+KEGG pathway enrichment analysis identified 16 significantly enriched pathways, with biosynthesis of secondary metabolites, carbon metabolism, and biosynthesis of amino acids representing the highest gene ratios (Figure 11). Additional enriched pathways included glycolysis/gluconeogenesis, pyruvate metabolism, oxidative phosphorylation, and fatty acid metabolism, collectively reinforcing the central role of metabolic rewiring in the transition to mature biofilm. Gene set enrichment analysis identified 203 significantly enriched GO Biological Process gene sets, providing further evidence for coordinated transcriptional shifts across a broad range of biological processes during velum maturation.
+
+<img width="2000" height="1000" alt="image" src="https://github.com/user-attachments/assets/a51f454e-2403-4003-973c-6b54d427fbad" />
+Figure 12. Normalized expression of selected genes of interest across velum developmental stages.
+DESeq2-normalized expression counts for three genes of interest — YGL055W (OLE1), YIR019C (FLO11), and YJL052W (TDH1) — across the three velum developmental stages. Each point represents a biological replicate (n = 3 per stage), with the black line connecting mean expression values across timepoints. Expression is shown on the y-axis with independent scaling per gene to facilitate visualization of individual expression trajectories.
+
+### Expression of key velum genes
+Examination of normalized expression for three genes of biological interest confirmed distinct expression trajectories across the developmental time course (Figure 12). FLO11 (YIR019C), encoding the primary cell surface adhesin required for biofilm formation, showed progressively increasing expression from Early through Mature stages. TDH1 (YJL052W), encoding glyceraldehyde-3-phosphate dehydrogenase, showed declining expression consistent with reduced glycolytic activity in the mature biofilm. OLE1 (YGL055W), encoding the primary fatty acid desaturase, showed increasing expression in the mature stage, suggesting remodeling of membrane lipid composition during velum development.
+
+
+
+
+
+
+
 ## Discussion
 
 ## Conclusion
