@@ -380,7 +380,27 @@ compare_go <- compareCluster(
   pvalueCutoff  = 0.05,
   qvalueCutoff  = 0.2
 )
+# Compare GO enrichment between up and downregulated gene sets — Thin vs Early
+up_genes_te   <- res_thin_early %>% filter(padj < 0.05 & log2FoldChange >  1) %>% pull(gene_id) %>% unique()
+down_genes_te <- res_thin_early %>% filter(padj < 0.05 & log2FoldChange < -1) %>% pull(gene_id) %>% unique()
 
+compare_go_te <- compareCluster(
+  geneCluster   = list(Upregulated = up_genes_te, Downregulated = down_genes_te),
+  fun           = "enrichGO",
+  OrgDb         = org.Sc.sgd.db,
+  keyType       = "ORF",
+  ont           = "BP",
+  pAdjustMethod = "BH",
+  pvalueCutoff  = 0.05,
+  qvalueCutoff  = 0.2
+)
+
+dotplot(compare_go_te, showCategory = 10,
+        title = "GO BP: Upregulated vs Downregulated in Thin Biofilm") +
+  theme_minimal(base_size = 12)
+ggsave("plots/dotplot_compare_GO_Thin_vs_Early.pdf", width = 8, height = 6)
+
+if (nrow(as.data.frame(compare_go_te)) > 0) write.csv(as.data.frame(compare_go_te), "results/GO_BP_compare_Thin_vs_Early.csv")
 # KEGG pathway enrichment
 sig_entrez <- res_df %>% filter(padj < 0.05 & abs(log2FoldChange) > 1) %>% pull(gene_id) %>% unique()
 all_entrez <- res_df %>% pull(gene_id) %>% unique()
@@ -479,6 +499,7 @@ if (nrow(as.data.frame(ego_cc)) > 0)      write.csv(as.data.frame(ego_cc),      
 if (nrow(as.data.frame(kegg_enrich)) > 0) write.csv(as.data.frame(kegg_enrich), "results/KEGG_enrichment.csv")
 
 if (nrow(as.data.frame(gsea_go)) > 0)     write.csv(as.data.frame(gsea_go),     "results/GSEA_GO_BP.csv")
+
 
 
 
