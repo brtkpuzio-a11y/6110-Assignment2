@@ -30,21 +30,31 @@ Functional annotation and enrichment analysis were performed using clusterProfil
 Gene set enrichment analysis was performed using gseGO(), with all expressed genes ranked by log2 fold change from the Mature versus Early comparison. This approach complements threshold-dependent ORA by identifying coordinated expression shifts across predefined gene sets without requiring an arbitrary significance cutoff (Subramanian et al., 2005). All enrichment results were filtered at an adjusted p-value threshold of 0.05 and q-value below 0.2.
 ## Results
 <img width="2000" height="1428" alt="image" src="https://github.com/user-attachments/assets/57e6ff3e-e227-4fce-929c-c077da30cb52" />
-
+Figure 1. Principal component analysis of RNA-seq samples across velum developmental stages.
+PCA of variance-stabilized gene expression data from the three biological replicates at each of three velum developmental stages in *S. cerevisiae* (Early, Thin, Mature). PC1 accounts for 71% of total variance and PC2 accounts for 24%, together explaining 95% of the variance in the dataset. Clear separation between all three timepoints along PC1 indicates strong and reproducible transcriptional differences associated with velum progression.
 <img width="2000" height="1500" alt="image" src="https://github.com/user-attachments/assets/eb8658ad-853f-43d2-b8a6-f91c036f4bc1" />
+Figure 2. MA plot of differential expression between Mature and Early velum stages.
+Log2 fold change plotted against mean normalized expression for all genes tested in the Mature versus Early contrast. Each point represents a gene, with the y-axis showing the shrinkage-corrected log2 fold change and the x-axis showing mean normalized counts on a log10 scale. Genes above and below zero represent upregulated and downregulated genes in the Mature stage respectively.
 
 <img width="2000" height="997" alt="image" src="https://github.com/user-attachments/assets/b773a55c-4e17-4607-927f-540bae1c13fb" />
-
+Figure 3. MA plot of differential expression between Thin and Early velum stages.
+Log2 fold change plotted against mean normalized expression for all genes in the Thin versus Early contrast. Layout and interpretation are identical to Figure 2. The compressed fold change range relative to the Mature versus Early comparison reflects the smaller transcriptional distance between the Early and Thin stages.
 <img width="2000" height="1428" alt="image" src="https://github.com/user-attachments/assets/dae4191f-735a-49c3-bd1d-daf86a771b0e" />
+Figure 4. Volcano plot of differentially expressed genes in the Mature versus Early comparison.
+Each point represents a gene, plotted by shrinkage-corrected log2 fold change (x-axis) against negative log10 adjusted p-value (y-axis). Genes meeting the significance threshold (adjusted p < 0.05, |log2FC| > 1) are colored red (upregulated) or blue (downregulated). Dashed lines indicate the |log2FC| = 1 and adjusted p = 0.05 thresholds. The 15 most significant differentially expressed genes are labeled.
+
 
 <img width="2000" height="1428" alt="image" src="https://github.com/user-attachments/assets/25b43085-5f77-4926-bd4c-90b226979384" />
-
+Figure 5. Volcano plot of differentially expressed genes in the Thin versus Early comparison.
+Visualization of differential expression for the Mature versus Early contrast, presented as described in Figure 4. Notable upregulated genes include ADH7, PCK1, and MAN2, while downregulated genes include HXT1 and PDC6, reflecting the metabolic shift from fermentative to oxidative growth during velum maturation.
 <img width="2000" height="1428" alt="image" src="https://github.com/user-attachments/assets/4a45362e-065a-46f9-bf65-670c6d0be93f" />
-
+Figure 6. Volcano plot of differentially expressed genes in the Thin versus Mature comparison.
+Differential expression between the Thin and Mature stages presented as described in Figure 4. The reduced number of significantly differentially expressed genes relative to comparisons against the Early stage reflects the transcriptional similarity between the two later developmental stages.
 <img width="1259" height="983" alt="image" src="https://github.com/user-attachments/assets/9abd8e02-234a-4c8b-b7eb-8186102ab8ee" />
 
 <img width="2000" height="2500" alt="image" src="https://github.com/user-attachments/assets/b9a236f5-1ec2-4342-bea8-9abed8b380e3" />
-
+Figure 7. Heatmap of top differentially expressed genes across pairwise contrasts.
+Row-scaled heatmap displaying the top 30 most significantly differentially expressed genes (adjusted p < 0.05, |log2FC| > 1) per pairwise contrast, deduplicated across comparisons. Expression values are variance-stabilized and z-score normalized per gene. Columns represent individual samples grouped by developmental stage (Early, Thin, Mature) without hierarchical clustering. Red indicates relative overexpression and blue indicates relative underexpression. Gene names are shown on the right.
 ## Discussion
 
 ## Conclusion
