@@ -323,6 +323,52 @@ ego_cc <- enrichGO(gene          = sig_genes,
                    pvalueCutoff  = 0.05,
                    qvalueCutoff  = 0.2)
 
+# Prepare gene lists for Thin vs Early
+res_thin_early <- as.data.frame(deg_list[["Thin_vs_Early"]]) %>%
+  left_join(gene_map, by = c("gene_id" = "ORF"))
+
+sig_genes_te  <- res_thin_early %>% filter(padj < 0.05 & abs(log2FoldChange) > 1) %>% pull(gene_id) %>% unique()
+all_genes_te  <- res_thin_early$gene_id %>% unique()
+
+ego_bp_te <- enrichGO(gene          = sig_genes_te,
+                      universe      = all_genes_te,
+                      OrgDb         = org.Sc.sgd.db,
+                      keyType       = "ORF",
+                      ont           = "BP",
+                      pAdjustMethod = "BH",
+                      pvalueCutoff  = 0.05,
+                      qvalueCutoff  = 0.2)
+
+# Prepare gene lists for Thin vs Mature
+res_thin_mature <- df3 %>%
+  left_join(gene_map, by = c("gene_id" = "ORF"))
+
+sig_genes_tm  <- res_thin_mature %>% filter(padj < 0.05 & abs(log2FoldChange) > 1) %>% pull(gene_id) %>% unique()
+all_genes_tm  <- res_thin_mature$gene_id %>% unique()
+
+ego_bp_tm <- enrichGO(gene          = sig_genes_tm,
+                      universe      = all_genes_tm,
+                      OrgDb         = org.Sc.sgd.db,
+                      keyType       = "ORF",
+                      ont           = "BP",
+                      pAdjustMethod = "BH",
+                      pvalueCutoff  = 0.05,
+                      qvalueCutoff  = 0.2)
+
+# Dotplots
+dotplot(ego_bp_te, showCategory = 15,
+        title = "GO Biological Process Enrichment (Thin vs Early)") +
+  theme_minimal(base_size = 12)
+ggsave("plots/dotplot_GO_BP_Thin_vs_Early.pdf", width = 8, height = 6)
+
+dotplot(ego_bp_tm, showCategory = 15,
+        title = "GO Biological Process Enrichment (Thin vs Mature)") +
+  theme_minimal(base_size = 12)
+ggsave("plots/dotplot_GO_BP_Thin_vs_Mature.pdf", width = 8, height = 6)
+
+# Export
+if (nrow(as.data.frame(ego_bp_te)) > 0) write.csv(as.data.frame(ego_bp_te), "results/GO_BP_Thin_vs_Early.csv")
+if (nrow(as.data.frame(ego_bp_tm)) > 0) write.csv(as.data.frame(ego_bp_tm), "results/GO_BP_Thin_vs_Mature.csv")
 # Compare GO enrichment between up and downregulated gene sets
 compare_go <- compareCluster(
   geneCluster   = list(Upregulated = up_genes, Downregulated = down_genes),
@@ -412,6 +458,7 @@ if (nrow(as.data.frame(ego_cc)) > 0)      write.csv(as.data.frame(ego_cc),      
 if (nrow(as.data.frame(kegg_enrich)) > 0) write.csv(as.data.frame(kegg_enrich), "results/KEGG_enrichment.csv")
 
 if (nrow(as.data.frame(gsea_go)) > 0)     write.csv(as.data.frame(gsea_go),     "results/GSEA_GO_BP.csv")
+
 
 
 
