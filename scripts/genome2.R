@@ -391,6 +391,27 @@ kegg_enrich <- enrichKEGG(gene         = sig_entrez,
                           keyType      = "kegg",
                           pvalueCutoff = 0.05,
                           qvalueCutoff = 0.2)
+# KEGG enrichment — Thin vs Early
+sig_entrez_te <- res_thin_early %>%
+  filter(padj < 0.05 & abs(log2FoldChange) > 1) %>%
+  pull(gene_id) %>% unique()
+
+all_entrez_te <- res_thin_early %>%
+  pull(gene_id) %>% unique()
+
+kegg_te <- enrichKEGG(gene         = sig_entrez_te,
+                      universe     = all_entrez_te,
+                      organism     = "sce",
+                      keyType      = "kegg",
+                      pvalueCutoff = 0.05,
+                      qvalueCutoff = 0.2)
+
+dotplot(kegg_te, showCategory = 15,
+        title = "KEGG Pathway Enrichment (Thin vs Early)") +
+  theme_minimal(base_size = 12)
+ggsave("plots/dotplot_KEGG_Thin_vs_Early.pdf", width = 8, height = 6)
+
+if (nrow(as.data.frame(kegg_te)) > 0) write.csv(as.data.frame(kegg_te), "results/KEGG_Thin_vs_Early.csv")
 
 # GSEA ranked by log2FC
 gene_ranks <- res_df %>%
@@ -458,6 +479,7 @@ if (nrow(as.data.frame(ego_cc)) > 0)      write.csv(as.data.frame(ego_cc),      
 if (nrow(as.data.frame(kegg_enrich)) > 0) write.csv(as.data.frame(kegg_enrich), "results/KEGG_enrichment.csv")
 
 if (nrow(as.data.frame(gsea_go)) > 0)     write.csv(as.data.frame(gsea_go),     "results/GSEA_GO_BP.csv")
+
 
 
 
