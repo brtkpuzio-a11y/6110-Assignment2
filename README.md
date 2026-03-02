@@ -33,6 +33,30 @@ Gene set enrichment analysis was performed using gseGO(), with all expressed gen
 ### Transcriptome-wide expression profiling and sample quality
 Principal component analysis of variance-stabilized expression data revealed clear separation between all three velum developmental stages, with PC1 and PC2 accounting for 71% and 24% of total variance respectively, together explaining 95% of the variance in the dataset (Figure 1). Early, Thin, and Mature replicates formed tight, well-separated clusters, confirming high biological reproducibility within stages and strong transcriptional divergence across the developmental time course. Following low-count filtering, 5,571 genes were retained for differential expression analysis.
 
+Table 1. Top 20 differentially expressed genes identified during yeast velum (biofilm) development. Genes are ranked by adjusted p-value (padj). Log2FoldChange values indicate the magnitude and direction of differential expression, where positive values represent upregulation and negative values represent downregulation under biological wine aging conditions. Adjusted p-values were calculated to control for multiple testing.
+| Gene    | log2FoldChange | Adjusted p-value (padj) | Gene Function |
+|---------|---------------:|------------------------:|---------------|
+| TDH1    | -5.168758 | 3.783147e-143 | Glyceraldehyde-3-phosphate dehydrogenase |
+| OLE1    | -4.573536 | 8.691582e-127 | delta-9 fatty acid desaturase |
+| FLO11   |  5.442481 | 3.399816e-126 | Cell surface flocculin; adhesion and biofilm formation |
+| PDC6    | -4.868136 | 1.610494e-120 | Pyruvate decarboxylase |
+| HXT1    | -4.944154 | 5.960327e-117 | Low-affinity hexose transporter|
+| MAN2    |  7.666389 | 3.620331e-110 | Mannosidase; cell wall glycoprotein processing |
+| YNR071C |  8.308068 | 1.874859e-98  | Putative protein; stress-related/unknown function |
+| PIR1    |  3.919431 | 7.634268e-96  | Cell wall structural protein |
+| DAL5    | -3.394235 | 1.453616e-95  | Allantoate permease |
+| PGK1    | -4.114375 | 1.939196e-85  | Phosphoglycerate kinase |
+| HXT17   |  5.224724 | 7.963568e-85  | High-affinity hexose transporter |
+| TPO4    | -3.930071 | 5.294153e-81  | Polyamine transporter; stress response |
+| CIS3    |  4.345264 | 1.397069e-78  | Cell wall mannoprotein; structural integrity |
+| CTT1    | -4.364036 | 4.427337e-74  | Cytosolic catalase |
+| EEB1    | -3.744669 | 5.798464e-66  | Acyl-CoA:ethanol O-acyltransferase |
+| SSE1    |  3.229364 | 2.902028e-65  | Hsp70 co-chaperone; protein folding/stress response |
+| ERG25   | -2.890109 | 2.494088e-63  | C-4 sterol methyl oxidase |
+| VSB1    | -2.309010 | 1.917090e-61  | Vacuolar protein sorting / membrane trafficking |
+| OPT1    | -4.997736 | 3.570701e-60  | Oligopeptide transporter |
+| SRL1    |  3.835789 | 1.252400e-59  | Cell wall protein; stress-related regulation |
+
 <img width="2000" height="1428" alt="image" src="https://github.com/user-attachments/assets/57e6ff3e-e227-4fce-929c-c077da30cb52" />
 Figure 1. Principal component analysis of RNA-seq samples across velum developmental stages.
 PCA of variance-stabilized gene expression data from the three biological replicates at each of three velum developmental stages in *S. cerevisiae* (Early, Thin, Mature). PC1 accounts for 71% of total variance and PC2 accounts for 24%, together explaining 95% of the variance in the dataset. Clear separation between all three timepoints along PC1 indicates strong and reproducible transcriptional differences associated with velum progression.
@@ -54,6 +78,20 @@ Each point represents a gene, plotted by shrinkage-corrected log2 fold change (x
 Figure 5. Volcano plot of differentially expressed genes in the Thin versus Early comparison.
 Visualization of differential expression for the Mature versus Early contrast, presented as described in Figure 4. Notable upregulated genes include ADH7, PCK1, and MAN2, while downregulated genes include HXT1 and PDC6, reflecting the metabolic shift from fermentative to oxidative growth during velum maturation.
 
+
+Table 5. Summary statistics of the differential gene expression analysis during yeast velum development under biological wine aging conditions. Differential expression was determined using an adjusted p-value threshold of 0.05. Strong regulation was defined as |log2FoldChange| ≥ 2.
+| Metric | Value |
+|--------------------------------------------|--------:|
+| Total genes tested | 5,571 |
+| Significant DEGs (padj < 0.05) | 2,973 |
+| Upregulated genes | 1,538 |
+| Downregulated genes | 1,435 |
+| Strongly upregulated  | 305 |
+| Strongly downregulated | 197 |
+| Highest log2FoldChange observed | 21.15 |
+| Lowest log2FoldChange observed | -10.28 |
+| Smallest adjusted p-value | 3.78 × 10^-143 |
+
 ### Pairwise differential expression analysis
 Differential expression analysis using DESeq2 identified substantial transcriptional remodeling across all three pairwise contrasts. In the Thin versus Early comparison, 548 genes were significantly upregulated and 489 were downregulated (adjusted p < 0.05, |log2FC| > 1), indicating that transcriptional change occurs even at the earliest stage of velum development (Figure 5). The Mature versus Early contrast revealed the most extensive transcriptional differences, with 963 genes upregulated and 798 downregulated in the mature biofilm (Figure 4). Notable upregulated genes included TDH1, OLE1, and FLO11, while HXT1 and PDC6 were among the most significantly downregulated, consistent with a transition away from fermentative carbon metabolism. The Thin versus Mature comparison identified 534 upregulated and 688 downregulated genes, reflecting continued and partially reversed transcriptional dynamics between the intermediate and mature stages (Figure 6). The expression heatmap of the top 30 DEGs per pairwise contrast confirmed distinct expression patterns across stages, with clearly defined gene clusters corresponding to Early-enriched and Mature-enriched expression programs (Figure 7).
 
@@ -65,6 +103,8 @@ Differential expression between the Thin and Mature stages presented as describe
 Likelihood ratio testing against an intercept-only reduced model identified 3,734 genes exhibiting statistically significant variation across the full developmental time course (adjusted p < 0.05), representing approximately 67% of all expressed genes. This substantially larger gene set relative to any single pairwise contrast indicates that a considerable proportion of the transcriptional program involves gradual or non-monotonic expression trajectories that are not fully captured by pairwise testing alone.
 
 <img width="1259" height="983" alt="image" src="https://github.com/user-attachments/assets/9abd8e02-234a-4c8b-b7eb-8186102ab8ee" />
+Figure 7. Heatmap of top differentially expressed genes from pairwise contrasts across velum developmental stages.
+Row-scaled heatmap displaying the top 30 most significantly differentially expressed genes (adjusted p < 0.05, |log2FC| > 1) per pairwise contrast (Thin vs Early, Mature vs Early), deduplicated to yield 90 unique genes. Expression values are variance-stabilized using DESeq2 VST normalization and z-score scaled per row. Columns represent individual biological replicates grouped by developmental stage (Early, Thin, Mature). Rows are hierarchically clustered, revealing distinct gene expression modules associated with each stage. Red indicates relative overexpression and blue indicates relative underexpression relative to the row mean. Several gene clusters are visible: an Early-enriched cluster including metabolic genes such as TDH1, PGK1, and ENO2; a Thin-enriched intermediate cluster; and a Mature-enriched cluster including stress response and adhesion genes such as FLO11, SSE1, and PIR1.
 
 <img width="2000" height="2500" alt="image" src="https://github.com/user-attachments/assets/b9a236f5-1ec2-4342-bea8-9abed8b380e3" />
 Figure 8. Heatmap of top differentially expressed genes across pairwise contrasts.
@@ -89,21 +129,34 @@ KEGG pathway enrichment analysis identified 16 significantly enriched pathways, 
 
 <img width="2000" height="1000" alt="image" src="https://github.com/user-attachments/assets/a51f454e-2403-4003-973c-6b54d427fbad" />
 Figure 12. Normalized expression of selected genes of interest across velum developmental stages.
-DESeq2-normalized expression counts for three genes of interest — YGL055W (OLE1), YIR019C (FLO11), and YJL052W (TDH1) — across the three velum developmental stages. Each point represents a biological replicate (n = 3 per stage), with the black line connecting mean expression values across timepoints. Expression is shown on the y-axis with independent scaling per gene to facilitate visualization of individual expression trajectories.
+DESeq2-normalized expression counts for three genes of interest YGL055W (OLE1), YIR019C (FLO11), and YJL052W (TDH1) across the three velum developmental stages. Each point represents a biological replicate (n = 3 per stage), with the black line connecting mean expression values across timepoints. Expression is shown on the y-axis with independent scaling per gene to facilitate visualization of individual expression trajectories.
 
 ### Expression of key velum genes
 Examination of normalized expression for three genes of biological interest confirmed distinct expression trajectories across the developmental time course (Figure 12). FLO11 (YIR019C), encoding the primary cell surface adhesin required for biofilm formation, showed progressively increasing expression from Early through Mature stages. TDH1 (YJL052W), encoding glyceraldehyde-3-phosphate dehydrogenase, showed declining expression consistent with reduced glycolytic activity in the mature biofilm. OLE1 (YGL055W), encoding the primary fatty acid desaturase, showed increasing expression in the mature stage, suggesting remodeling of membrane lipid composition during velum development.
 
-
-
-
-
-
-
 ## Discussion
+The transcriptomic analysis of *S. cerevisiae* velum development presented here reveals a coordinated program of gene expression remodeling spanning the early, thin, and mature stages of biofilm formation. Principal component analysis (PCA) demonstrated clear and reproducible separation between all three developmental stages, with PC1 and PC2 collectively accounting for 95% of total variance, confirming that stage-specific transcriptional identity is the primary source of variation in the dataset.
+The scale of differential expression observed across the time course is evident. Likelihood ratio testing identified 3,734 genes, approximately 67% of all expressed genes as varying significantly across the developmental trajectory, indicating that velum maturation involves a near-global transcriptional reorganization rather than the activation of a discrete set of stage-specific genes. This is consistent with the biological demands of the transition, which requires simultaneous remodeling of carbon metabolism, cell wall architecture, stress tolerance, and adhesion programs. The progressive increase in differentially expressed gene counts from the Thin versus Early comparison (548 upregulated, 489 downregulated) to the Mature versus Early comparison (963 upregulated, 798 downregulated) suggests that transcriptional divergence from the early state accumulates gradually across the developmental time course rather than occurring as a discrete switch between stages.
+
+### Metabolic reprogramming toward oxidative growth
+The most prominent biological theme emerging from the functional enrichment analysis is the coordinated upregulation of mitochondrial and oxidative metabolic functions in mature velum cells. GO enrichment identified mitochondrial organization and mitochondrial translation among the most significantly enriched biological processes in upregulated genes, while KEGG analysis highlighted oxidative phosphorylation, pyruvate metabolism, and carbon metabolism as enriched pathways. This pattern is consistent with the fundamental metabolic shift that characterizes flor yeast physiology at the wine surface. As fermentable sugars are depleted, cells must transition from glycolytic ATP generation to oxidative phosphorylation, requiring substantial expansion of mitochondrial capacity and upregulation of the electron transport chain.
+The downregulation of glycolytic genes provides a complementary perspective on this metabolic transition. TDH1, encoding glyceraldehyde-3-phosphate dehydrogenase, and PGK1, encoding phosphoglycerate kinase, both showed declining expression across the developmental time course, consistent with a reduction in glycolytic flux as the primary mode of carbon catabolism. Similarly, ENO2, encoding enolase, was among the most strongly downregulated genes in mature velum cells. The coordinated repression of these central glycolytic enzymes, combined with the upregulation of mitochondrial biogenesis genes, suggests that the transcriptional program of velum maturation actively dismantles the fermentative metabolic apparatus while simultaneously building oxidative capacity, which is a transition that mirrors the bi-phasic shift observed in laboratory yeast cultures, but occurring in the context of a structured biofilm under enologically relevant conditions. The enrichment of biosynthesis of secondary metabolites as the most gene-rich KEGG pathway in the Mature versus Early contrast has direct relevance to the sensory chemistry of biological wine aging. The accumulation of acetaldehyde, acetoin, sotolon, and other flavor-active volatile compounds is a defining feature of the flor yeast phenotype and is responsible for the characteristic nutty, oxidative character of biologically aged sherry wines. The upregulation of genes contributing to secondary metabolite biosynthesis in mature velum cells is therefore consistent with the known biochemistry of the aging process and positions the mature biofilm as the primary metabolically active state responsible for flavor compound production.
+
+### Cell wall remodeling and biofilm adhesion
+The progressive upregulation of FLO11 across the developmental time course is consistent with its established role as the master regulator of velum architecture. FLO11 encodes a large GPI-anchored cell wall glycoprotein whose expression is required for the hydrophobic cell surface properties that enable yeast cells to colonize the air-liquid interface. Its increasing expression from early to mature stages suggests that surface hydrophobicity and intercellular adhesion capacity are progressively reinforced as the biofilm matures, potentially contributing to the structural consolidation of the velum membrane. The upregulation of PIR1, encoding a covalently cell wall-bound protein involved in cell wall integrity, further supports the conclusion that cell wall remodeling is an ongoing feature of velum maturation rather than a one-time event at biofilm initiation.
+Several stress response genes were also upregulated in mature velum cells, including SSE1, encoding an Hsp70 family chaperone, and HSP26, a small heat shock protein. The induction of protein folding and chaperone activity, reflected also in the GO enrichment of protein folding terms among upregulated genes, likely reflects adaptation to the proteotoxic stress associated with high ethanol concentrations and the metabolic demands of sustained oxidative growth. The upregulation of proteasome-mediated ubiquitin-dependent protein catabolic process terms among upregulated genes further suggests active protein quality control as a feature of the mature velum transcriptional state.
+
+### Membrane lipid remodeling
+The upregulation of OLE1, encoding the primary delta-9 fatty acid desaturase responsible for converting saturated fatty acids to monounsaturated forms, in mature velum cells points to active remodeling of membrane lipid composition during biofilm development. Maintenance of appropriate membrane fluidity is critical for cell survival under high ethanol concentrations, as ethanol intercalates into the lipid bilayer and disrupts membrane integrity. The induction of OLE1 suggests that mature velum cells actively adjust the degree of fatty acid unsaturation to compensate for ethanol-induced membrane rigidification. Consistent with this, steroid biosynthesis and fatty acid metabolism pathways were both enriched in the KEGG analysis, suggesting broader remodeling of membrane lipid homeostasis beyond the OLE1-mediated unsaturation response. ERG25, involved in ergosterol biosynthesis, was also among the differentially expressed genes, further supporting the conclusion that sterol composition of the membrane is actively regulated during velum maturation.
+
+### Nutrient sensing and transport
+The strong enrichment of transmembrane transport among downregulated genes in mature velum cells is biologically interpretable in the context of the nutrient-depleted wine environment. Genes encoding hexose transporters, including HXT1 and HXT17, were among the most significantly downregulated in the Mature versus Early contrast, consistent with the near-complete depletion of glucose and other fermentable sugars from the wine at this stage of aging. The downregulation of high-affinity sugar transporters suggests that cells have transcriptionally adapted to the absence of fermentable carbon rather than maintaining futile expression of transport machinery for unavailable substrates. Similarly, the downregulation of DAL5, encoding an allantoate permease involved in nitrogen catabolite repression-sensitive transport, may reflect adaptation to the nitrogen-limited conditions of the aging wine environment.
+
+### Comparison of Thin and Mature stages
+The Thin versus Mature comparison identified 534 upregulated and 688 downregulated genes, a substantial number that indicates the Thin stage is not simply an intermediate between Early and Mature but represents a distinct transcriptional state with its own characteristic gene expression program. Several genes showed peak expression specifically at the Thin stage before declining in mature cells, a pattern that would be invisible to pairwise analysis but is captured by the LRT. This suggests that certain biological processes — potentially including initial surface colonization, biofilm restructuring, or transitional metabolic states — are specifically associated with the intermediate developmental stage and warrant further investigation.
 
 ## Conclusion
-
+Taken together, these findings reveal velum maturation as a progressive and highly coordinated transcriptional transition driven primarily by the metabolic demands of oxidative growth in a nutrient-depleted, ethanol-rich environment. The concurrent upregulation of mitochondrial biogenesis, stress tolerance, cell wall adhesion, and membrane lipid remodeling programs, alongside the systematic downregulation of fermentative metabolism and nutrient transport, reflects a coherent and integrated adaptive response rather than a collection of independently regulated changes. The breadth of transcriptional remodeling, affecting approximately 67% of the expressed genome, underscores the extent to which velum formation represents a fundamental reorganization of cellular physiology, and highlights the remarkable transcriptional plasticity of *S. cerevisiae* in adapting to the extreme conditions of the biological wine aging environment.
 ## References 
 
 
